@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="error-page">
+  <span class="error-code" aria-hidden="true">!</span>
+  <p class="eyebrow">Unable to display this page</p>
+  <h1>{{ error_title }}</h1>
+  <p>{{ error_message }}</p>
+  <a class="button" href="{{ request.url_for('dashboard_home') }}">Return to dashboard</a>
+</section>
+{% endblock %}

@@ -1,0 +1,26 @@
+{
+  "models": [
+    {
+      "name": "MediaPipe Face Landmarker",
+      "purpose": "face presence, 478 face/iris landmarks, and facial transformation matrices",
+      "expected_path": "model/face_landmarker.task",
+      "source": "https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task",
+      "sha256": "64184e229b263107bc2b804c6625db1341ff2bb731874b0bcc2fe6544e0bc9ff",
+      "size_bytes": 3758596,
+      "redistribution": "Not bundled by default; verify the model asset terms at the upstream source before redistribution."
+    },
+    {
+      "name": "Fine-tuned Ultralytics phone detector",
+      "purpose": "single-class phone-object detection",
+      "expected_path": "model/best_yolov12.pt",
+      "source": "User-supplied checkpoint; original training dataset/source URL is not recorded in this repository.",
+      "sha256": "c9edee36f87fb8d450c1608f9e2bd88a7c3f16e5351c1cbdc7079de5ff470d2a",
+      "size_bytes": 18930963,
+      "expected_classes": {
+        "0": "phone"
+      },
+      "embedded_license_metadata": "AGPL-3.0 (Ultralytics)",
+      "redistribution": "Do not redistribute until the training dataset provenance and checkpoint redistribution rights are verified."
+    }
+  ]
+}

@@ -1,0 +1,12 @@
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+extend-exclude = [
+    ".venv",
+    ".python-runtime",
+    "benchmark-results",
+    "data",
+]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]

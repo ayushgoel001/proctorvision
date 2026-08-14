@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="{{ request.url_for('dashboard_home') }}">Dashboard</a>
+  <span aria-hidden="true">/</span>
+  <span>Session</span>
+</nav>
+
+<section class="page-heading detail-heading">
+  <div>
+    <p class="eyebrow">Monitoring session</p>
+    <h1 class="mono heading-id">{{ session.session_id }}</h1>
+    <p class="lede">Created {{ session.created_at }} from {{ session.source }}.</p>
+  </div>
+  <div class="heading-status">
+    <span class="badge large {{ session.status_class }}">{{ session.status }}</span>
+    {% if auto_refresh %}<span class="refresh-note"><span class="live-dot" aria-hidden="true"></span>Refreshes every 10 seconds</span>{% endif %}
+  </div>
+</section>
+
+{% if session.failure_reason %}
+<aside class="notice error-notice"><strong>Session failed:</strong> {{ session.failure_reason }}</aside>
+{% endif %}
+
+<section class="detail-grid" aria-label="Session summary">
+  <article class="detail-card"><span>Started</span><strong>{{ session.started_at }}</strong></article>
+  <article class="detail-card"><span>Ended</span><strong>{{ session.ended_at }}</strong></article>
+  <article class="detail-card"><span>Review events</span><strong>{{ session.event_count }}</strong></article>
+  <article class="detail-card"><span>Average performance</span><strong>{{ session.average_fps }}</strong></article>
+</section>
+
+<section class="two-column">
+  <article class="panel compact-panel">
+    <div class="panel-header">
+      <div><p class="eyebrow">Setup</p><h2>Calibration</h2></div>
+      <span class="badge {{ 'resolved' if session.calibration_completed else 'calibrating' }}">
+        {{ 'Complete' if session.calibration_completed else 'Incomplete' }}
+      </span>
+    </div>
+    <dl class="key-values">
+      <div><dt>Completed at</dt><dd>{{ session.calibration_completed_at }}</dd></div>
+      <div><dt>Video source</dt><dd>{{ session.source }}</dd></div>
+    </dl>
+    {% if session.calibration_details %}
+    <details class="metadata-details">
+      <summary>Calibration details</summary>
+      <pre>{{ session.calibration_details | tojson(indent=2) }}</pre>
+    </details>
+    {% endif %}
+  </article>
+
+  <article class="panel compact-panel">
+    <div class="panel-header"><div><p class="eyebrow">Breakdown</p><h2>Review events by type</h2></div></div>
+    <div class="count-list">
+      {% for item in event_counts %}
+      <div><span>{{ item.label }}</span><strong>{{ item.count }}</strong></div>
+      {% endfor %}
+    </div>
+  </article>
+</section>
+
+{% set evidence_events = events | selectattr('evidence_available') | list %}
+{% if evidence_events %}
+<section class="panel">
+  <div class="panel-header"><div><p class="eyebrow">Visual review</p><h2>Evidence</h2></div><span class="panel-note">Confirmed events only</span></div>
+  <div class="evidence-grid">
+    {% for event in evidence_events %}
+    <a class="evidence-card" href="{{ event.detail_url }}">
+      <img src="{{ event.evidence_url }}" alt="Evidence thumbnail for {{ event.event_type_label }}" loading="lazy">
+      <span><strong>{{ event.event_type_label }}</strong><small>{{ event.confirmed_at }}</small></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+
+<section class="panel">
+  <div class="panel-header">
+    <div><p class="eyebrow">Chronology</p><h2>Review event timeline</h2></div>
+    <span class="panel-note">{{ events | length }} event{{ '' if events | length == 1 else 's' }}</span>
+  </div>
+  {% if events %}
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th scope="col">Confirmed</th><th scope="col">Type</th><th scope="col">Observed state</th><th scope="col">Status</th><th scope="col">Duration</th><th scope="col">Evidence</th><th scope="col"><span class="sr-only">Open</span></th></tr></thead>
+      <tbody>
+        {% for event in events %}
+        <tr>
+          <td>{{ event.confirmed_at }}</td>
+          <td><a class="primary-link" href="{{ event.detail_url }}">{{ event.event_type_label }}</a><span class="cell-secondary mono">{{ event.event_id }}</span></td>
+          <td>{{ event.source_state }}</td>
+          <td><span class="badge {{ event.status_class }}">{{ event.status }}</span></td>
+          <td>{{ event.duration }}</td>
+          <td>{{ 'Available' if event.evidence_available else 'Unavailable' }}</td>
+          <td><a class="row-action" href="{{ event.detail_url }}">Review</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state small">
+    <h3>No review events</h3>
+    <p>No sustained observations have produced review flags for this session.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}

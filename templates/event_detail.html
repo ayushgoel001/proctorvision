@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block content %}
+<nav class="breadcrumbs" aria-label="Breadcrumb">
+  <a href="{{ request.url_for('dashboard_home') }}">Dashboard</a><span aria-hidden="true">/</span>
+  <a href="{{ session.detail_url }}">Session</a><span aria-hidden="true">/</span>
+  <span>Review event</span>
+</nav>
+
+<section class="page-heading detail-heading">
+  <div>
+    <p class="eyebrow">Review event</p>
+    <h1>{{ event.event_type_label }}</h1>
+    <p class="lede mono">{{ event.event_id }}</p>
+  </div>
+  <span class="badge large {{ event.status_class }}">{{ event.status }}</span>
+</section>
+
+<aside class="notice"><strong>Human review required.</strong> This event records a sustained detector observation; it does not establish misconduct.</aside>
+
+<section class="event-layout">
+  <article class="panel evidence-panel">
+    <div class="panel-header"><div><p class="eyebrow">Captured frame</p><h2>Evidence</h2></div></div>
+    {% if event.evidence_available %}
+    <a href="{{ event.evidence_url }}" class="evidence-full-link" aria-label="Open full evidence image">
+      <img class="evidence-full" src="{{ event.evidence_url }}" alt="Evidence for {{ event.event_type_label }}">
+    </a>
+    {% else %}
+    <div class="evidence-placeholder"><strong>No evidence image</strong><span>The event record is available, but its screenshot is missing or invalid.</span></div>
+    {% endif %}
+  </article>
+
+  <article class="panel compact-panel">
+    <div class="panel-header"><div><p class="eyebrow">Observation</p><h2>Event details</h2></div></div>
+    <dl class="key-values stacked">
+      <div><dt>Detector source</dt><dd>{{ event.detector_source }}</dd></div>
+      <div><dt>Observed state</dt><dd>{{ event.source_state }}</dd></div>
+      <div><dt>Started</dt><dd>{{ event.started_at }}</dd></div>
+      <div><dt>Confirmed</dt><dd>{{ event.confirmed_at }}</dd></div>
+      <div><dt>Resolved</dt><dd>{{ event.resolved_at }}</dd></div>
+      <div><dt>Duration</dt><dd>{{ event.duration }}</dd></div>
+      <div><dt>Confidence</dt><dd>{{ event.confidence if event.confidence is not none else 'Not provided' }}</dd></div>
+      <div><dt>Bounding box</dt><dd>{{ event.bounding_box if event.bounding_box else 'Not provided' }}</dd></div>
+    </dl>
+  </article>
+</section>
+
+<section class="panel">
+  <div class="panel-header"><div><p class="eyebrow">Diagnostics</p><h2>Detector metadata</h2></div></div>
+  {% if event.metadata %}<pre class="metadata-block">{{ event.metadata | tojson(indent=2) }}</pre>{% else %}<p class="muted">No detector metadata was persisted for this event.</p>{% endif %}
+</section>
+{% endblock %}

@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Human review dashboard for persisted proctoring observations.">
+  <title>{{ page_title }} &middot; ProctorVision Review Console</title>
+  <link rel="stylesheet" href="{{ request.url_for('static', path='dashboard.css') }}">
+  <script defer src="{{ request.url_for('static', path='dashboard.js') }}"></script>
+</head>
+<body data-auto-refresh="{{ 'true' if auto_refresh else 'false' }}">
+  <a class="skip-link" href="#main-content">Skip to content</a>
+  <header class="site-header">
+    <div class="shell header-inner">
+      <a class="brand" href="{{ request.url_for('dashboard_home') }}">
+        <span class="brand-mark" aria-hidden="true">PR</span>
+        <span>
+          <strong>ProctorVision Review Console</strong>
+          <small>Behavioral review flags for human inspection</small>
+        </span>
+      </a>
+      <nav class="top-nav" aria-label="Primary navigation">
+        <a href="{{ request.url_for('dashboard_home') }}">Dashboard</a>
+        <a href="{{ request.url_for('get_health') }}">System health</a>
+        <a href="/docs">REST API</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content" class="shell page-content">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="shell footer-inner">
+      <span>Local review workspace</span>
+      <span>Flags require human interpretation and are not proof of misconduct.</span>
+    </div>
+  </footer>
+</body>
+</html>

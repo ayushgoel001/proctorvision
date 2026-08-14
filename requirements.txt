@@ -1,0 +1,15 @@
+# Live runtime; tested with Python 3.11.
+mediapipe==0.10.35
+numpy==1.26.4
+# MediaPipe and Ultralytics declare different OpenCV distributions. Keep both
+# upstream-required packages on the exact same OpenCV release.
+opencv-python==4.11.0.86
+opencv-contrib-python==4.11.0.86
+# torchvision is an Ultralytics compatibility dependency, not a direct import.
+torch==2.2.2
+torchvision==0.17.2
+ultralytics==8.3.82
+fastapi==0.141.1
+pydantic==2.13.4
+uvicorn==0.52.3
+Jinja2==3.1.6

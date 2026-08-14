@@ -1,0 +1,53 @@
+# Python environments and caches
+.venv/
+venv/
+env/
+.python-runtime/
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Test and coverage output
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+
+# Runtime data and private evidence
+data/
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+
+# Benchmark output (fixtures and published summaries must be added deliberately)
+benchmark-results/
+
+# Local models. See model/README.md and model/manifest.json.
+model/*.pt
+model/*.pth
+model/*.onnx
+model/*.task
+model/*.weights
+
+# Local replay videos
+Demo_vid/*
+!Demo_vid/.gitkeep
+
+# Logs and local configuration
+log/
+*.log
+.env
+.env.*
+!.env.example
+
+# IDE and operating-system files
+.idea/
+.vscode/
+*.code-workspace
+.DS_Store
+Thumbs.db
+Desktop.ini

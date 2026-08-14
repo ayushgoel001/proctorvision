@@ -1,0 +1,23 @@
+"""Small, centralized runtime configuration for project paths and session defaults."""
+
+from pathlib import Path
+
+PROJECT_ROOT = Path(__file__).resolve().parent
+
+DATA_DIRECTORY = PROJECT_ROOT / "data"
+DATABASE_PATH = DATA_DIRECTORY / "surveillance.db"
+EVIDENCE_DIRECTORY = DATA_DIRECTORY / "evidence"
+
+MODEL_DIRECTORY = PROJECT_ROOT / "model"
+FACE_LANDMARKER_MODEL_PATH = MODEL_DIRECTORY / "face_landmarker.task"
+YOLO_MODEL_PATH = MODEL_DIRECTORY / "best_yolov12.pt"
+
+TEMPLATES_DIRECTORY = PROJECT_ROOT / "templates"
+STATIC_DIRECTORY = PROJECT_ROOT / "static"
+
+DEFAULT_VIDEO_SOURCE = "0"
+CALIBRATION_SECONDS = 5.0
+CALIBRATION_TIMEOUT_SECONDS = 20.0
+MIN_CALIBRATION_SAMPLES = 15
+LATENCY_WINDOW_SIZE = 30
+DIAGNOSTIC_LOG_INTERVAL_SECONDS = 2.0

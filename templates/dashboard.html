@@ -1,0 +1,87 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="page-heading">
+  <div>
+    <p class="eyebrow">System overview</p>
+    <h1>Review dashboard</h1>
+    <p class="lede">Inspect recent monitoring sessions and the observations that require human review.</p>
+  </div>
+  {% if auto_refresh %}
+  <p class="refresh-note"><span class="live-dot" aria-hidden="true"></span>Active session &middot; refreshes every 10 seconds</p>
+  {% endif %}
+</section>
+
+<section class="summary-grid" aria-label="System summary">
+  <article class="summary-card">
+    <span class="summary-label">API</span>
+    <strong class="summary-value compact">Ready</strong>
+    <span class="health-line"><span class="health-dot ready" aria-hidden="true"></span>Application responding</span>
+  </article>
+  <article class="summary-card">
+    <span class="summary-label">Database</span>
+    <strong class="summary-value compact">Ready</strong>
+    <span class="health-line"><span class="health-dot ready" aria-hidden="true"></span>SQLite available</span>
+  </article>
+  <article class="summary-card">
+    <span class="summary-label">Recent sessions</span>
+    <strong class="summary-value">{{ sessions | length }}</strong>
+    <span class="summary-caption">Latest {{ sessions | length }} of up to 12</span>
+  </article>
+  <article class="summary-card">
+    <span class="summary-label">Review flags in view</span>
+    <strong class="summary-value">{{ review_event_count }}</strong>
+    <span class="summary-caption">Across recent sessions</span>
+  </article>
+</section>
+
+<section class="panel">
+  <div class="panel-header">
+    <div>
+      <p class="eyebrow">Monitoring history</p>
+      <h2>Recent sessions</h2>
+    </div>
+    {% if active_count %}<span class="badge running">{{ active_count }} active</span>{% endif %}
+  </div>
+
+  {% if sessions %}
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th scope="col">Session</th>
+          <th scope="col">Status</th>
+          <th scope="col">Started</th>
+          <th scope="col">Ended</th>
+          <th scope="col">Review events</th>
+          <th scope="col">Performance</th>
+          <th scope="col"><span class="sr-only">Open</span></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for session in sessions %}
+        <tr>
+          <td>
+            <a class="primary-link mono" href="{{ session.detail_url }}">{{ session.session_id }}</a>
+            <span class="cell-secondary">{{ session.source }}</span>
+          </td>
+          <td><span class="badge {{ session.status_class }}">{{ session.status }}</span></td>
+          <td>{{ session.started_at }}</td>
+          <td>{{ session.ended_at }}</td>
+          <td><strong>{{ session.event_count }}</strong></td>
+          <td>{{ session.average_fps }}</td>
+          <td><a class="row-action" href="{{ session.detail_url }}" aria-label="Open session {{ session.session_id }}">View</a></td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state">
+    <span class="empty-icon" aria-hidden="true">0</span>
+    <h3>No monitoring sessions yet</h3>
+    <p>Run the monitoring application to create the first persisted session. This page will then show its status and review events.</p>
+  </div>
+  {% endif %}
+</section>
+{% endblock %}
