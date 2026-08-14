@@ -105,22 +105,34 @@ appears automatically in the dashboard and refreshes periodically.
 
 ## Screenshots
 
-Screenshots will be added here after a final redaction review. When available,
-they will show the live monitor, session dashboard, and event-detail page without
-including private evidence or personal information.
+**Live Monitoring**
+
+![Live Monitoring](data/images/live-monitoring.jpg)
+
+The real-time monitor view, showing face tracking and gaze/head-pose signals as they are captured.
+
+**Session Dashboard**
+
+![Session Dashboard](data/images/session-dashboard.png)
+
+The browser dashboard, used to review sessions, confirmed events, and evidence after a run.
 
 ## Where results are saved
 
 ```text
 data/
 ├── surveillance.db
-└── evidence/
-    └── <session-id>/
-        └── <event-id>.jpg
+├── evidence/
+│   └── <session-id>/
+│       └── <event-id>.jpg
+└── images/
+    ├── live-monitoring.jpg
+    └── session-dashboard.png
 ```
 
 The database stores event details and the relative path to each screenshot. The
-image files themselves stay on disk in `data/evidence/`.
+image files themselves stay on disk in `data/evidence/`. `data/images/` holds
+non-sensitive screenshots used for documentation only.
 
 ## How it works
 
@@ -196,14 +208,6 @@ dashboard.py            # dashboard routes
 model/                  # local model instructions and manifest
 tests/                  # automated tests
 ```
-
-## Notes for use and sharing
-
-- Keep `data/` private because it may contain evidence screenshots.
-- Bind the dashboard to `127.0.0.1` unless you add authentication and deployment
-  security.
-- The phone checkpoint is local-only until its training-data provenance and
-  redistribution rights are verified. See [model/README.md](model/README.md).
 
 ## License
 
