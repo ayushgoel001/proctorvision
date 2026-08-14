@@ -16,13 +16,12 @@ __pycache__/
 htmlcov/
 coverage.xml
 
-# Runtime data and private evidence
-data/
-*.db
-*.db-journal
-*.sqlite
-*.sqlite3
+# Ignore everything under data/ by default
+data/*
 
+# Except the documentation screenshots
+!data/images/
+!data/images/**
 # Benchmark output (fixtures and published summaries must be added deliberately)
 benchmark-results/
 
