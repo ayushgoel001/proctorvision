@@ -107,7 +107,7 @@ appears automatically in the dashboard and refreshes periodically.
 
 **Live Monitoring**
 
-![Live Monitoring](data/images/live-monitoring.jpg)
+![Live Monitoring](data/images/live-monitoring.png)
 
 The real-time monitor view, showing face tracking and gaze/head-pose signals as they are captured.
 
